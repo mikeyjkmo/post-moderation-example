@@ -1,4 +1,4 @@
-# Post Moderation ML Example
+# Post Moderation Example
 
 ## Design
 
