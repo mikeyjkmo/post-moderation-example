@@ -20,6 +20,9 @@ class PostRepository:
     async def list(self) -> List[Post]:
         ...
 
+    async def list_unmoderated(self) -> List[Post]:
+        ...
+
 
 class InMemoryPostRepository(PostRepository):
     def __init__(self):
@@ -35,4 +38,11 @@ class InMemoryPostRepository(PostRepository):
             raise PostNotFoundError(f"Post with id {id} cannot be found") from exc
 
     async def list(self) -> List[Post]:
-        return list(self._posts.values())
+        return [post.copy() for post in self._posts.values()]
+
+    async def list_unmoderated(self) -> List[Post]:
+        return [
+            post.copy()
+            for post in self._posts.values()
+            if post.has_foul_language is None
+        ]

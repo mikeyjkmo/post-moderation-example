@@ -1,4 +1,5 @@
-from typing import List
+import itertools
+from typing import List, Optional
 from uuid import UUID, uuid4
 from pydantic import BaseModel
 
@@ -7,6 +8,7 @@ class Post(BaseModel):
     id: UUID
     title: str
     paragraphs: List[str]
+    has_foul_language: Optional[bool]
 
     @classmethod
     def new(cls, title: str, paragraphs: List[str]):
@@ -15,6 +17,14 @@ class Post(BaseModel):
             title=title,
             paragraphs=paragraphs,
         )
+
+    @property
+    def sentences(self) -> List[str]:
+        return list(itertools.chain.from_iterable(
+            [
+                paragraph.split(".") for paragraph in self.paragraphs
+            ]
+        ))
 
 
 class PostNotFoundError(Exception):
