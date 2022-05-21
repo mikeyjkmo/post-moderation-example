@@ -44,5 +44,5 @@ class InMemoryPostRepository(PostRepository):
         return [
             post.copy()
             for post in self._posts.values()
-            if post.has_foul_language is None
+            if post.requires_moderation
         ]

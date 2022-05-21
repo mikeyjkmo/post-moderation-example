@@ -9,6 +9,7 @@ class Post(BaseModel):
     title: str
     paragraphs: List[str]
     has_foul_language: Optional[bool]
+    requires_moderation: bool = True
 
     @classmethod
     def new(cls, title: str, paragraphs: List[str]):

@@ -47,3 +47,23 @@ async def test_save_and_list():
         post1,
         post2
     ]
+
+
+@pytest.mark.asyncio
+async def test_list_unmoderated():
+    # Given
+    repo = InMemoryPostRepository()
+
+    post1 = Post.new(title="hello", paragraphs=["one", "two"])
+    await repo.save(post1)
+
+    post2 = Post.new(title="world", paragraphs=["three", "four"])
+    post2.has_foul_language = True
+    post2.requires_moderation = False
+    await repo.save(post2)
+
+    # When
+    result = await repo.list_unmoderated()
+
+    # Then
+    assert result == [post1]

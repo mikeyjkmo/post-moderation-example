@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 async def run_post_moderation_loop(
     moderation_client: ModerationClient,
     repo: PostRepository,
-    sleep_fn=asyncio.sleep,
+    interval_seconds=10,
 ):
     """
     This is an async background task loop that moderates any unmoderated posts
@@ -31,6 +31,7 @@ async def run_post_moderation_loop(
         posts = await repo.list_unmoderated()
         for post in posts:
             post.has_foul_language = await _post_has_foul_language(post)
+            post.requires_moderation = False
             await repo.save(post)
 
     while True:
@@ -39,4 +40,4 @@ async def run_post_moderation_loop(
         except Exception:
             logger.exception("An error occurred whilst trying to moderate posts")
 
-        await sleep_fn(10)
+        await asyncio.sleep(interval_seconds)
