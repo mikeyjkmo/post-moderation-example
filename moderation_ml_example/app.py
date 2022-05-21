@@ -30,16 +30,25 @@ def create_app(repository_factory=InMemoryPostRepository) -> FastAPI:
 
     @app.post("/posts")
     async def create_post(post: PostCreationPayload) -> Post:
+        """
+        Create a new post
+        """
         new_post = Post.new(title=post.title, paragraphs=post.paragraphs)
         await repo.save(new_post)
         return new_post
 
     @app.get("/posts")
     async def list_posts() -> PostCollection:
+        """
+        List the posts in the system
+        """
         return PostCollection(posts=await repo.list())
 
     @app.on_event("startup")
     async def start_background_tasks():
+        """
+        Start the background tasks: Currently this is the post moderation loop
+        """
         nonlocal background_moderation_task
         if not background_moderation_task:
             background_moderation_task = asyncio.create_task(
@@ -51,6 +60,9 @@ def create_app(repository_factory=InMemoryPostRepository) -> FastAPI:
 
     @app.on_event("shutdown")
     async def stop_background_tasks():
+        """
+        Stop the background task when the app shuts down
+        """
         if background_moderation_task:
             background_moderation_task.cancel()
 
