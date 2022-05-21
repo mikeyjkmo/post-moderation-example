@@ -33,7 +33,7 @@ class InMemoryPostRepository(PostRepository):
 
     async def get(self, id: UUID) -> Post:
         try:
-            return self._posts[id]
+            return self._posts[id].copy()
         except KeyError as exc:
             raise PostNotFoundError(f"Post with id {id} cannot be found") from exc
 
