@@ -7,7 +7,13 @@ moderates any unmoderated posts. The default interval for this background task
 is 10 seconds. If an error occurs during an iteration, the task will continue
 to try again on the next interval.
 
-As mentioned in the **Future Improvements** section below, this
+- When a `Post` is initially created, it will be unmoderated and will not
+  have a value for `has_foul_language`.
+- The background task will process all unmoderated posts on each iteration
+  and set the `has_foul_language` field appropriately based on the result from
+  the Content Moderation service.
+
+NOTE: As mentioned in the **Future Improvements** section below, this
 is not how I would ideally implement something like this in a production environment.
 
 ## Requirements
