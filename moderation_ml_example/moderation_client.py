@@ -1,3 +1,9 @@
+from urllib.parse import urljoin
+
+import httpx
+from moderation_ml_example.config import config
+
+
 class ModerationClient:
     """
     This client tasks to the Moderation service
@@ -6,18 +12,10 @@ class ModerationClient:
         """
         Given a fragment (single sentence) return whether or not
         it contains foul language
-
-        NOTE: This is currently faked out
-
-        If I had access to the real service, I would do a POST using httpx/aiohttp
-        as follows:
-
-        curl -X 'POST' \
-            'http://content-moderation.service/sentences/' \
-            -H 'accept: application/json' \
-            -H 'Content-Type: application/json' \
-            -d '{
-            "fragment": <sentence>,
-        }'
         """
-        return "frick" in sentence.lower()
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                urljoin(base=config.CONTENT_MODERATION_SERVICE_URL, url="/sentences")
+            )
+            response.raise_for_status()
+            return response.json()["hasFoulLanguage"]
