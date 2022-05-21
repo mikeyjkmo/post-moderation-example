@@ -13,6 +13,8 @@ to try again on the next interval.
   and set the `has_foul_language` field appropriately based on the result from
   the Content Moderation service.
 
+<img src="https://nomnoml.com/image.svg?source=%23direction%3A%20right%0A%23.completed%3A%20fill%3D%23ff0%0A%23ranker%3A%20longest-path%0A%0A%5BFastAPI%20app%7C%0A%20%20Allows%20posts%20to%20be%20created%20and%20retrieved%0A%5D%3C-%3E%5BPost%20Repository%7C%0A%20%20Abstracts%20away%20the%0A%20%20persistence%20of%20Posts%0A%5D%0A%5BBackground%20Moderation%20Task%7C%0A%20%20Runs%20periodically%2C%20moderating%0A%20%20unmoderated%20posts%0A%5D%3C-%3E%5BPost%20Repository%5D%0A%5BPost%20Repository%5D%3C-%3E%5B%3Cdatabase%3EPython%20Dictionary%7C%0A%20%20Acting%20as%20an%20in-memory%0A%20%20key-value%20store%0A%5D%0A" />
+
 NOTE: As mentioned in the **Future Improvements** section below, this
 is not how I would ideally implement something like this in a production environment.
 
