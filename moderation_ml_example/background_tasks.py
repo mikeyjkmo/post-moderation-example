@@ -45,12 +45,14 @@ async def run_post_moderation_loop(
     while True:
         logger.debug("Moderating unmoderated posts")
 
+        err_occurred = False
         try:
             await _update_unmoderated_posts()
         except Exception:
             logger.exception("An error occurred whilst trying to moderate posts")
+            err_occurred = True
 
-        if oneshot:
+        if oneshot and not err_occurred:
             break
 
         await asyncio.sleep(interval_seconds)
