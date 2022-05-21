@@ -1,10 +1,12 @@
 import asyncio
+from uuid import UUID
 from moderation_ml_example.moderation_client import ModerationClient
 
 from typing import List
 from fastapi import FastAPI
 from pydantic.main import BaseModel
-from moderation_ml_example.models import Post
+from starlette.exceptions import HTTPException
+from moderation_ml_example.models import Post, PostNotFoundError
 from moderation_ml_example.repository import InMemoryPostRepository
 from moderation_ml_example.background_tasks import run_post_moderation_loop
 
@@ -36,6 +38,16 @@ def create_app(repository_factory=InMemoryPostRepository) -> FastAPI:
         new_post = Post.new(title=post.title, paragraphs=post.paragraphs)
         await repo.save(new_post)
         return new_post
+
+    @app.get("/posts/{id}")
+    async def get_post(id: UUID) -> Post:
+        """
+        Get a post
+        """
+        try:
+            return await repo.get(id)
+        except PostNotFoundError:
+            raise HTTPException(404, detail="Specified Post cannot be found")
 
     @app.get("/posts")
     async def list_posts() -> PostCollection:
