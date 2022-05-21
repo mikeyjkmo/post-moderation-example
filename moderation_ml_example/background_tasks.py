@@ -10,10 +10,16 @@ async def run_post_moderation_loop(
     moderation_client: ModerationClient,
     repo: PostRepository,
     interval_seconds=10,
+    oneshot=False,
 ):
     """
     This is an async background task loop that moderates any unmoderated posts
     every 10 seconds
+
+    :param moderation_client: The Client used to speak to the Content Moderation service
+    :repo: The PostRepository to use when retrieving/saving posts
+    :interval_seconds: The amount of time to wait between moderation iterations
+    :oneshot: If set to True, the task will run once. If False, will loop forever
     """
     async def _post_has_foul_language(post):
         """
@@ -39,5 +45,8 @@ async def run_post_moderation_loop(
             await _update_unmoderated_posts()
         except Exception:
             logger.exception("An error occurred whilst trying to moderate posts")
+
+        if oneshot:
+            break
 
         await asyncio.sleep(interval_seconds)
