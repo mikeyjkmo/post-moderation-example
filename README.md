@@ -4,7 +4,10 @@
 
 This is a simple FastAPI CRUD app with a background task that periodically
 moderates any unmoderated posts. The default interval for this background task
-is 10 seconds. As mentioned in the **Future Improvements** section below, this
+is 10 seconds. If an error occurs during an iteration, the task will continue
+to try again on the next interval.
+
+As mentioned in the **Future Improvements** section below, this
 is not how I would ideally implement something like this in a production environment.
 
 ## Requirements
