@@ -21,6 +21,8 @@ async def run_post_moderation_loop(
     :interval_seconds: The amount of time to wait between moderation iterations
     :oneshot: If set to True, the task will run once. If False, will loop forever
     """
+    logger.info("Starting background task for moderating posts")
+
     async def _post_has_foul_language(post):
         """
         Check if a Post contains foul language
@@ -41,6 +43,8 @@ async def run_post_moderation_loop(
             await repo.save(post)
 
     while True:
+        logger.debug("Moderating unmoderated posts")
+
         try:
             await _update_unmoderated_posts()
         except Exception:

@@ -1,4 +1,6 @@
 import asyncio
+import moderation_ml_example.logging  # noqa: F401
+
 from uuid import UUID
 from moderation_ml_example.moderation_client import ModerationClient
 
@@ -26,6 +28,7 @@ def create_app(repository_factory=InMemoryPostRepository) -> FastAPI:
 
     Defaults to using the InMemoryPostRepository
     """
+
     app = FastAPI()
     repo = repository_factory()
     background_moderation_task = None
