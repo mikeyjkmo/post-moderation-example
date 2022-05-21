@@ -1,5 +1,12 @@
 # Post Moderation ML Example
 
+## Design
+
+This is a simple FastAPI CRUD app with a background task that periodically
+moderates any unmoderated posts. The default interval for this background task
+is 10 seconds. As mentioned in the **Future Improvements** section below, this
+is not how I would ideally implement something like this in a production environment.
+
 ## Requirements
 
 - Python3.9 or above
@@ -14,8 +21,16 @@
 ## Run Tests
 
 ```bash
-make test
+> make test
 ```
+
+## Running The Development Server
+
+```bash
+>  make develop
+```
+
+Navigate to `http://localhost:8000/docs` to test the API out.
 
 ## Future Improvements
 
