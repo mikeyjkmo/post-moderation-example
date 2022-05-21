@@ -4,10 +4,18 @@ from moderation_ml_example.repository import InMemoryPostRepository, PostNotFoun
 from moderation_ml_example.models import Post
 
 
+@pytest.fixture(name="repo")
+def inmemory_repo_fixture():
+    """
+    Tests use the InMemoryPostRepository, but this can be changed to any
+    kind of Post Repository
+    """
+    return InMemoryPostRepository()
+
+
 @pytest.mark.asyncio
-async def test_save_and_get():
+async def test_save_and_get(repo):
     # Given
-    repo = InMemoryPostRepository()
     new_post = Post.new(title="hello", paragraphs=["one", "two"])
     await repo.save(new_post)
 
@@ -21,19 +29,14 @@ async def test_save_and_get():
 
 
 @pytest.mark.asyncio
-async def test_get_raises_not_found_error_if_post_not_found():
-    # Given
-    repo = InMemoryPostRepository()
-
-    # When, Then
+async def test_get_raises_not_found_error_if_post_not_found(repo):
     with pytest.raises(PostNotFoundError, match="Post.*cannot be found"):
         await repo.get(id=uuid4())
 
 
 @pytest.mark.asyncio
-async def test_save_and_list():
+async def test_save_and_list(repo):
     # Given
-    repo = InMemoryPostRepository()
     post1 = Post.new(title="hello", paragraphs=["one", "two"])
     post2 = Post.new(title="world", paragraphs=["three", "four"])
     await repo.save(post1)
@@ -50,10 +53,8 @@ async def test_save_and_list():
 
 
 @pytest.mark.asyncio
-async def test_list_unmoderated():
+async def test_list_unmoderated(repo):
     # Given
-    repo = InMemoryPostRepository()
-
     post1 = Post.new(title="hello", paragraphs=["one", "two"])
     await repo.save(post1)
 
