@@ -28,3 +28,22 @@ async def test_get_raises_not_found_error_if_post_not_found():
     # When, Then
     with pytest.raises(PostNotFoundError, match="Post.*cannot be found"):
         await repo.get(id=uuid4())
+
+
+@pytest.mark.asyncio
+async def test_save_and_list():
+    # Given
+    repo = InMemoryPostRepository()
+    post1 = Post.new(title="hello", paragraphs=["one", "two"])
+    post2 = Post.new(title="world", paragraphs=["three", "four"])
+    await repo.save(post1)
+    await repo.save(post2)
+
+    # When
+    result = await repo.list()
+
+    # Then
+    assert result == [
+        post1,
+        post2
+    ]
