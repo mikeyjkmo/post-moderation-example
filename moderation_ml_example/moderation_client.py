@@ -15,7 +15,8 @@ class ModerationClient:
         """
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                urljoin(base=config.CONTENT_MODERATION_SERVICE_URL, url="/sentences")
+                urljoin(base=config.CONTENT_MODERATION_SERVICE_URL, url="/sentences"),
+                json={"fragment": sentence}
             )
             response.raise_for_status()
             return response.json()["hasFoulLanguage"]
