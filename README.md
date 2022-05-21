@@ -49,4 +49,5 @@ Navigate to `http://localhost:8000/docs` to test the API out.
 - Ideally, if the requirement is the always allow the `Post` to be persisted prior
   to moderation, I would use an event-driven system to achieve this (using a messaging
   queue like `Kafka`). An event would be dispatched when a `Post` has been created,
-  say `PostCreated`. This event would be acted upon by a background consumer.
+  say `PostCreated`. This event would be acted upon by a background consumer. Consumers
+  would only commit their offsets after successfully moderating a created/updated `Post`.
