@@ -37,6 +37,14 @@ is not how I would ideally implement something like this in a production environ
 
 ## Running The Development Server
 
+Firstly start the mock Content Moderation server:
+
+```bash
+> make mock-moderation-server
+```
+
+Then start the main server
+
 ```bash
 >  make develop
 ```
