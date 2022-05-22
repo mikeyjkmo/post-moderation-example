@@ -61,3 +61,7 @@ Navigate to `http://localhost:8000/docs` to test the API out.
   queue like `Kafka`). An event would be dispatched when a `Post` has been created,
   say `PostCreated`. This event would be acted upon by a background consumer. Consumers
   would only commit their offsets after successfully moderating a created/updated `Post`.
+- Alternatively, I would use a cronjob in a separate process to run the content
+  moderation job for the unmoderated `Posts` instead of hooking the background
+  task to the `FastAPI` app. This could be achieved with something like
+  `kubernetes`.
