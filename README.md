@@ -1,5 +1,15 @@
 # Post Moderation Example
 
+## Task
+
+Implement an API that:
+
+* Accepts a post.
+* Stores it in a “database”.
+* Checks if any of its sentences contain foul language via a Content Moderation Service
+  API.
+* Updates the “database” with a flag (let’s call it “hasFoulLanguage”) if it does.
+
 ## Design
 
 This is a simple FastAPI CRUD app with a background task that periodically
