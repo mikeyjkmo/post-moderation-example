@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 async def run_post_moderation_loop(
     moderation_client: ModerationClient,
     repo: PostRepository,
-    interval_seconds=10,
+    interval_seconds=5,
     oneshot=False,
 ):
     """
